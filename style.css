@@ -1,10 +1,13 @@
 :root {
   color-scheme: dark;
-  --dos-green: #37ff79;
-  --dos-green-dark: #0b3c20;
-  --dos-bg: #050b07;
-  --dos-border: #1f5c36;
-  --dos-text: #a7ffcc;
+  --dos-title-font: "DOS Pixelcity", "Px437 IBM VGA8", "Perfect DOS VGA 437", "Cascadia Mono", "Courier New", monospace;
+  --dos-blue: #0000ff;
+  --dos-blue-dark: #000066;
+  --dos-bg: #ffffff;
+  --dos-border: #0000ff;
+  --dos-text: #0000ff;
+  --dos-muted: #4d4dff;
+  --dos-shadow: rgba(0, 0, 255, 0.25);
 }
 
 * {
@@ -14,6 +17,16 @@
   font-family: "Courier New", Courier, monospace;
 }
 
+@font-face {
+  font-family: "DOS Pixelcity";
+  src: url("assets/fonts/DOS_Pixelcity-Regular.woff2") format("woff2"),
+    url("assets/fonts/DOS_Pixelcity-Regular.woff") format("woff"),
+    url("assets/fonts/DOS_Pixelcity-Regular.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
 body {
   background: var(--dos-bg);
   color: var(--dos-text);
@@ -21,22 +34,36 @@ body {
   display: flex;
   justify-content: center;
   padding: 24px;
+  position: relative;
+  font-family: "Px437 IBM VGA8", "Perfect DOS VGA 437", "Cascadia Mono", "Courier New", monospace;
+  text-shadow: 0 0 6px rgba(0, 0, 255, 0.2);
+}
+
+body::before {
+  content: none;
+}
+
+body::after {
+  content: none;
 }
 
 .app {
   width: min(1200px, 100%);
   border: 2px solid var(--dos-border);
   padding: 24px;
-  background: radial-gradient(circle at top, #0b1f13 0%, #050b07 70%);
-  box-shadow: 0 0 30px rgba(55, 255, 121, 0.25);
+  background: #ffffff;
+  box-shadow: 0 0 30px var(--dos-shadow), inset 0 0 0 1px rgba(0, 0, 255, 0.2);
   display: grid;
   gap: 24px;
+  position: relative;
+  z-index: 0;
 }
 
 .top-bar {
-  display: flex;
-  justify-content: space-between;
+  display: grid;
+  grid-template-columns: auto 1fr auto;
   align-items: center;
+  gap: 16px;
   border-bottom: 1px solid var(--dos-border);
   padding-bottom: 12px;
 }
@@ -48,7 +75,7 @@ body {
 }
 
 .brand-mark {
-  color: var(--dos-green);
+  color: var(--dos-blue);
   font-weight: 700;
 }
 
@@ -60,7 +87,28 @@ body {
 .status {
   display: flex;
   gap: 20px;
-  color: var(--dos-green);
+  color: var(--dos-blue);
+  justify-self: end;
+}
+
+.menu {
+  display: flex;
+  gap: 12px;
+  justify-self: center;
+  flex-wrap: wrap;
+}
+
+.menu-btn {
+  background: transparent;
+  color: var(--dos-blue);
+  border: 1px solid var(--dos-border);
+  padding: 6px 14px;
+  letter-spacing: 1px;
+}
+
+.menu-btn.is-active {
+  background: #00ffff;
+  color: #0000ff;
 }
 
 .content {
@@ -69,12 +117,33 @@ body {
   gap: 24px;
 }
 
+.home-view h1 {
+  font-size: 18px;
+  color: var(--dos-blue);
+  margin-bottom: 12px;
+}
+
+.home-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 18px;
+}
+
+.inline-label {
+  display: grid;
+  gap: 6px;
+}
+
 .tracker h1,
 .entries h2,
-.sidebar h2 {
+.sidebar h2,
+.home-view h1,
+.clienti-view h2 {
   font-size: 18px;
   margin-bottom: 12px;
-  color: var(--dos-green);
+  color: var(--dos-blue);
+  font-family: var(--dos-title-font);
+  letter-spacing: 1px;
 }
 
 .timer-panel {
@@ -82,14 +151,14 @@ body {
   padding: 20px;
   display: grid;
   gap: 16px;
-  background: rgba(5, 15, 9, 0.7);
+  background: #ffffff;
 }
 
 .timer-display {
   font-size: 40px;
   letter-spacing: 4px;
   text-align: center;
-  color: var(--dos-green);
+  color: var(--dos-blue);
   border: 1px dashed var(--dos-border);
   padding: 12px;
 }
@@ -102,11 +171,14 @@ body {
 
 button {
   background: transparent;
-  color: var(--dos-green);
+  color: var(--dos-blue);
   border: 1px solid var(--dos-border);
   padding: 8px 18px;
   cursor: pointer;
   transition: background 0.2s ease;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  box-shadow: inset 0 0 0 1px rgba(0, 0, 255, 0.2);
 }
 
 button:disabled {
@@ -115,7 +187,8 @@ button:disabled {
 }
 
 button:hover:not(:disabled) {
-  background: var(--dos-green-dark);
+  background: #00ffff;
+  color: #0000ff;
 }
 
 .timer-inputs {
@@ -127,18 +200,33 @@ label {
   display: grid;
   gap: 6px;
   font-size: 12px;
-  color: var(--dos-green);
+  color: var(--dos-blue);
+  text-transform: uppercase;
+  letter-spacing: 1px;
 }
 
-input {
+input,
+select {
   background: transparent;
   border: 1px solid var(--dos-border);
   color: var(--dos-text);
   padding: 6px 8px;
+  font-family: inherit;
+  letter-spacing: 0.5px;
 }
 
 input::placeholder {
-  color: #4fa56f;
+  color: var(--dos-muted);
+}
+
+select {
+  appearance: none;
+  background-image: linear-gradient(45deg, transparent 50%, var(--dos-blue) 50%),
+    linear-gradient(135deg, var(--dos-blue) 50%, transparent 50%);
+  background-position: calc(100% - 16px) 50%, calc(100% - 10px) 50%;
+  background-size: 6px 6px, 6px 6px;
+  background-repeat: no-repeat;
+  padding-right: 32px;
 }
 
 .sidebar {
@@ -146,7 +234,7 @@ input::placeholder {
   padding: 18px;
   display: grid;
   gap: 16px;
-  background: rgba(5, 15, 9, 0.7);
+  background: #ffffff;
 }
 
 .summary-card {
@@ -158,13 +246,103 @@ input::placeholder {
 
 .summary-card strong {
   font-size: 20px;
-  color: var(--dos-green);
+  color: var(--dos-blue);
 }
 
 #project-list {
   list-style: none;
   display: grid;
   gap: 4px;
+}
+
+#project-list li {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+#project-list strong {
+  font-size: 12px;
+}
+
+.summary-card.registry {
+  border-style: solid;
+  gap: 12px;
+}
+
+.project-form {
+  display: grid;
+  gap: 8px;
+}
+
+.project-form button {
+  justify-self: start;
+}
+
+#project-registry {
+  list-style: none;
+  display: grid;
+  gap: 10px;
+}
+
+.project-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border: 1px solid var(--dos-border);
+  padding: 6px 8px;
+}
+
+.project-info {
+  display: grid;
+  gap: 2px;
+}
+
+.project-info span {
+  color: var(--dos-muted);
+  font-size: 12px;
+}
+
+.project-remove {
+  padding: 4px 10px;
+  font-size: 12px;
+}
+
+.client-card {
+  gap: 12px;
+}
+
+#client-registry {
+  list-style: none;
+  display: grid;
+  gap: 10px;
+}
+
+.clienti-view h2 {
+  font-size: 18px;
+  color: var(--dos-blue);
+  margin-bottom: 12px;
+}
+
+.clienti-view #client-registry {
+  max-width: 720px;
+}
+
+.client-row {
+  border: 1px solid var(--dos-border);
+  padding: 6px 8px;
+  display: grid;
+  gap: 4px;
+}
+
+.client-row span {
+  color: var(--dos-muted);
+  font-size: 12px;
+}
+
+.input-error {
+  border-color: #ff6b6b;
+  box-shadow: 0 0 0 1px #ff6b6b;
 }
 
 .entries {
@@ -182,7 +360,7 @@ input::placeholder {
 .entries-header {
   text-transform: uppercase;
   font-size: 12px;
-  color: var(--dos-green);
+  color: var(--dos-blue);
   padding-bottom: 8px;
   border-bottom: 1px solid var(--dos-border);
 }
@@ -201,14 +379,14 @@ input::placeholder {
 .entry-row.empty {
   text-align: center;
   grid-template-columns: 1fr;
-  color: #4fa56f;
+  color: var(--dos-muted);
 }
 
 .footer {
   display: flex;
   justify-content: space-between;
   font-size: 12px;
-  color: var(--dos-green);
+  color: var(--dos-blue);
   border-top: 1px solid var(--dos-border);
   padding-top: 12px;
 }
@@ -226,5 +404,18 @@ input::placeholder {
   .footer {
     flex-direction: column;
     gap: 8px;
+  }
+
+  .top-bar {
+    grid-template-columns: 1fr;
+    justify-items: start;
+  }
+
+  .menu {
+    justify-self: start;
+  }
+
+  .status {
+    justify-self: start;
   }
 }

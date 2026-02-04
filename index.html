@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Clockyfy DOS</title>
-    <link rel="stylesheet" href="styles.css" />
+    <link rel="stylesheet" href="style.css" />
   </head>
   <body>
     <div class="app">
@@ -13,13 +13,42 @@
           <span class="brand-mark">C:\</span>
           <span class="brand-name">CLOCKYFY</span>
         </div>
+        <nav class="menu">
+          <button class="menu-btn is-active" data-view="home" type="button">HOME</button>
+          <button class="menu-btn" data-view="progetti" type="button">PROGETTI</button>
+          <button class="menu-btn" data-view="clienti" type="button">CLIENTI</button>
+        </nav>
         <div class="status">
           <span id="current-date">--/--/----</span>
           <span id="current-time">--:--:--</span>
         </div>
       </header>
 
-      <main class="content">
+      <section class="view home-view" data-view="home">
+        <h1>NUOVE REGISTRAZIONI</h1>
+        <div class="home-grid">
+          <div class="summary-card registry">
+            <p>NUOVO PROGETTO</p>
+            <div class="project-form">
+              <input id="project-name-input" type="text" placeholder="Nome progetto" />
+              <label class="inline-label">
+                CLIENTE
+                <select id="project-client-select"></select>
+              </label>
+              <button id="project-add-btn" type="button">SALVA</button>
+            </div>
+          </div>
+          <div class="summary-card registry">
+            <p>NUOVO CLIENTE</p>
+            <div class="project-form">
+              <input id="client-name-input" type="text" placeholder="Nome cliente" />
+              <button id="client-add-btn" type="button">SALVA</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <main class="content view" data-view="progetti" hidden>
         <section class="tracker">
           <h1>TIME TRACKER</h1>
           <div class="timer-panel">
@@ -36,7 +65,7 @@
               </label>
               <label>
                 PROJECT
-                <input id="project-input" type="text" placeholder="Nome progetto" />
+                <select id="project-select"></select>
               </label>
               <label>
                 TAGS
@@ -62,10 +91,16 @@
               <li>--</li>
             </ul>
           </div>
+          <div class="summary-card registry">
+            <p>REGISTRO PROGETTI</p>
+            <ul id="project-registry">
+              <li>--</li>
+            </ul>
+          </div>
         </aside>
       </main>
 
-      <section class="entries">
+      <section class="entries view" data-view="progetti" hidden>
         <h2>LOG DI OGGI</h2>
         <div class="entries-header">
           <span>ATTIVITA</span>
@@ -76,6 +111,13 @@
         <div class="entries-body" id="entries-body">
           <div class="entry-row empty">Nessuna sessione registrata</div>
         </div>
+      </section>
+
+      <section class="view clienti-view" data-view="clienti" hidden>
+        <h2>CLIENTI</h2>
+        <ul id="client-registry">
+          <li>--</li>
+        </ul>
       </section>
 
       <footer class="footer">
