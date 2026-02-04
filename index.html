@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="it">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Clockyfy DOS</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="app">
+      <header class="top-bar">
+        <div class="brand">
+          <span class="brand-mark">C:\</span>
+          <span class="brand-name">CLOCKYFY</span>
+        </div>
+        <div class="status">
+          <span id="current-date">--/--/----</span>
+          <span id="current-time">--:--:--</span>
+        </div>
+      </header>
+
+      <main class="content">
+        <section class="tracker">
+          <h1>TIME TRACKER</h1>
+          <div class="timer-panel">
+            <div class="timer-display" id="timer-display">00:00:00</div>
+            <div class="timer-controls">
+              <button id="start-btn">START</button>
+              <button id="stop-btn" disabled>STOP</button>
+              <button id="reset-btn">RESET</button>
+            </div>
+            <div class="timer-inputs">
+              <label>
+                TASK
+                <input id="task-input" type="text" placeholder="Scrivi attivita" />
+              </label>
+              <label>
+                PROJECT
+                <input id="project-input" type="text" placeholder="Nome progetto" />
+              </label>
+              <label>
+                TAGS
+                <input id="tags-input" type="text" placeholder="tag1, tag2" />
+              </label>
+            </div>
+          </div>
+        </section>
+
+        <aside class="sidebar">
+          <h2>SUMMARY</h2>
+          <div class="summary-card">
+            <p>OGGI</p>
+            <strong id="today-total">00:00:00</strong>
+          </div>
+          <div class="summary-card">
+            <p>SETTIMANA</p>
+            <strong id="week-total">00:00:00</strong>
+          </div>
+          <div class="summary-card">
+            <p>PROGETTI</p>
+            <ul id="project-list">
+              <li>--</li>
+            </ul>
+          </div>
+        </aside>
+      </main>
+
+      <section class="entries">
+        <h2>LOG DI OGGI</h2>
+        <div class="entries-header">
+          <span>ATTIVITA</span>
+          <span>PROGETTO</span>
+          <span>DURATA</span>
+          <span>TAGS</span>
+        </div>
+        <div class="entries-body" id="entries-body">
+          <div class="entry-row empty">Nessuna sessione registrata</div>
+        </div>
+      </section>
+
+      <footer class="footer">
+        <span>F1=AIUTO</span>
+        <span>F2=NUOVA SESSIONE</span>
+        <span>ESC=ESCI</span>
+      </footer>
+    </div>
+
+    <script src="app.js"></script>
+  </body>
+</html>
